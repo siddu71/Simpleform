@@ -20,5 +20,16 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
+  <plugins>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.3</version>
+        <configuration>
+            <warSourceDirectory>src/main/webapp</warSourceDirectory>
+        </configuration>
+    </plugin>
+</plugins>
+
 
 </web-app>
