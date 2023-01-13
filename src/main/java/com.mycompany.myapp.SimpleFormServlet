@@ -1,0 +1,20 @@
+package com.mycompany.myapp;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+public class SimpleFormServlet extends HttpServlet {
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Get the text entered in the form
+        String inputText = request.getParameter("inputField");
+
+        // Save the text to a file or database, or perform any other desired action
+
+        // Redirect to a confirmation page
+        response.sendRedirect("formsubmit");
+    }
+}
