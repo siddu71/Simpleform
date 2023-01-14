@@ -2,15 +2,23 @@
 <html>
 
 <head>
-    <title>Simple Form</title>
+    <title>Contact Form</title>
 </head>
 
 <body>
-    <form method="POST" action="formsubmit">
-        <label for="inputField">Enter text 3:</label>
-        <input type="text" id="inputField" name="inputField">
+    <form method="POST" action="submit-form">
+        <label for="nameField">Name:</label>
+        <input type="text" id="nameField" name="nameField">
+        <br>
+        <label for="emailField">Email:</label>
+        <input type="email" id="emailField" name="emailField">
+        <br>
+        <label for="messageField">Message:</label>
+        <textarea id="messageField" name="messageField"></textarea>
+        <br>
         <button type="submit">Submit</button>
     </form>
 </body>
 
 </html>
+
