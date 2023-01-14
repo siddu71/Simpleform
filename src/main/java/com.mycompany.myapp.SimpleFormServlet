@@ -1,20 +1,92 @@
 package com.mycompany.myapp;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
-public class SimpleFormServlet extends HttpServlet {
+@WebServlet("/submitForm")
+public class FormServlet extends HttpServlet {
+
+    private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
+    private static final String DB_CONNECTION = "jdbc:mysql://database-1.cu29m5zmusxz.us-east-1.rds.amazonaws.com:3306/database-1";
+    private static final String DB_USER = "admin";
+    private static final String DB_PASSWORD = "Sumanth123";
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Get the text entered in the form
-        String inputText = request.getParameter("inputField");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Get the form data
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String message = request.getParameter("message");
 
-        // Save the text to a file or database, or perform any other desired action
+        // Insert the data into the database
+        try {
+            createTable();
+            insertData(name, email, message);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        // Redirect to a confirmation page
-        response.sendRedirect("formsubmit");
+        // Redirect to a confirmation page or display a message on the same page
+        response.sendRedirect("formsubmit.html");
+    }
+
+    private void createTable() throws SQLException {
+        Connection connection = null;
+        Statement statement = null;
+
+        try {
+            Class.forName(DB_DRIVER);
+            connection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
+
+            statement = connection.createStatement();
+            String sql = "CREATE TABLE IF NOT EXISTS contact_form" +
+                    "(id INTEGER not NULL AUTO_INCREMENT, " +
+                    " name VARCHAR(255), " +
+                    " email VARCHAR(255), " +
+                    " message VARCHAR(255), " +
+                    " PRIMARY KEY ( id ))";
+            statement.executeUpdate(sql);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+if (statement != null) {
+statement.close();
+}
+if (connection != null) {
+connection.close();
+}
+}
+}
+
+private void insertData(String name, String email, String message) throws SQLException {
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    try {
+        Class.forName(DB_DRIVER);
+        connection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
+        String insertTableSQL = "INSERT INTO contact_form" + "(name, email, message) VALUES" + "(?,?,?)";
+        preparedStatement = connection.prepareStatement(insertTableSQL);
+        preparedStatement.setString(1, name);
+        preparedStatement.setString(2, email);
+        preparedStatement.setString(3, message);
+        preparedStatement.executeUpdate();
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+    } finally {
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (connection != null) {
+            connection.close();
+        }
     }
 }
