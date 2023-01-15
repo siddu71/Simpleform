@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/submitForm")
 public class FormServlet extends HttpServlet {
 
-    private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_CONNECTION = "jdbc:mysql://database-1.cu29m5zmusxz.us-east-1.rds.amazonaws.com:3306/database-1";
-    private static final String DB_USER = "admin";
-    private static final String DB_PASSWORD = "Sumanth123";
+       private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
+       private static final String DB_CONNECTION = "jdbc:mysql://database-2.cu29m5zmusxz.us-east-1.rds.amazonaws.com:3306/database-2";
+       private static final String DB_USER = "admin";
+       private static final String DB_PASSWORD = "sumanth123";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
